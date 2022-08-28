@@ -14,4 +14,4 @@ I tried to eliminate any repetitive line of code and condense most of the proces
 ---
 ![Screenshot of the website at work](./assets/images/password-generate.png)
 
-### Website: 
+### Website: [cryptic parakeet](https://lonelymitoc.github.io/cryptic-parakeet/)
