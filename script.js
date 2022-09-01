@@ -4,14 +4,14 @@
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
-// Was going to use it for each instance of null/false
+// Was going to use it for each instance of null/false but unnecessary
 // function cancelChoice(x) {
 //   if (!x) {
 //     return;
 //   }
 // }
 
-// Write password to the #password input
+// function to generate password
 function writePassword() {
   var charLength = window.prompt("How long should the password be? (8 to 128 characters)");
   
@@ -26,47 +26,94 @@ function writePassword() {
     return;
   }
 
-  // Assigns an array of boolean for the confirm choices and allowed characters
-  var lowerLetters = 'abcdefghijklmnopqrstuvwxyz';
-  var lowerCase = [window.confirm("Would you like to include lowercases? ('OK' for Yes and 'Cancel' for No)"), lowerLetters];
+  // Assigns an array of allowed characters and store choices
+  var lowerLetters = [];
+  var abc = 'abcdefghijklmnopqrstuvwxyz';
+  for (i = 0; i < abc.length; i++) {
+    lowerLetters[i] = abc.charAt(i);
+  }
+  var lowerCase = window.confirm("Would you like to include lowercases? ('OK' for Yes and 'Cancel' for No)");
   
-  var upperLetters = lowerLetters.toUpperCase();
-  var upperCase = [window.confirm("Would you like to include UPPERCASES?"), upperLetters];
+  var upperLetters = [];
+  for (i = 0; i < abc.length; i++) {
+    upperLetters[i] = lowerLetters[i].toUpperCase();
+  }
+  var upperCase = window.confirm("Would you like to include UPPERCASES?");
 
-  var numDigits = '0123456789';
-  var numInclude = [window.confirm("Would you like to include numbers?"), numDigits];
+  var numDigits = [];
+  var numString = '0123456789';
+  for (i = 0; i < numString.length; i++) {
+    numDigits[i] = numString.charAt(i);
+  }
+  var numInclude = window.confirm("Would you like to include numbers?");
 
-  var specialCharc = "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
-  var specialChoice = [window.confirm("Would you like to include special characters?"), specialCharc];
+  var specialCharc = [];
+  var specialString = "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+  for (i = 0; i < specialString.length; i++) {
+    specialCharc[i] = specialString.charAt(i);
+  }
+  var specialChoice = window.confirm("Would you like to include special characters?");
 
   // Alerts and terminates when no character types are selected
-  if (!lowerCase[0] && !upperCase[0] && !numInclude[0] && !specialChoice[0]) {
+  if (!lowerCase && !upperCase && !numInclude && !specialChoice) {
     window.alert("Must at least choose one character type. Please try again.");
     return;
   }
 
-  // Deletes the character set if 'cancel' was selected in the character type
-  function blankFalse(y) {
-    if (y[0] == false) {
-      y[1] = "";
+  // Puts the variables into arrays and a countType to count the selected character types
+  var charType = [lowerCase, upperCase, numInclude, specialChoice];
+  var charList = [lowerLetters, upperLetters, numDigits, specialCharc];
+  var passStore =[];
+  var passGen = [];
+  var countType = 0;
+
+  // Loop through each charType to check if conditions and add one character from each selected character type to the password storage
+  for (var x = 0; x < charType.length; x++) {
+    if (charType[x]) {
+      var eachChar = [];
+      passStore = passStore.concat(charList[x]);
+      eachChar.push(charList[x][Math.floor(Math.random() * (charList[x].length))]);
+      passGen.push(eachChar);
+      countType++
     }
   }
 
-  blankFalse(lowerCase);
-  blankFalse(upperCase);
-  blankFalse(numInclude);
-  blankFalse(specialChoice);
+  // Loop through allowed character (eachChar) to push until the length meets the requirement
+  var neededChar = charLength - countType;
+  for (i = 0; i < neededChar; i++) {
+    var random = Math.floor(Math.random() * (passStore.length));
+    passGen.push(passStore[random]);
+  }
+
+  // random distribute the generated password to scrabble the first few characters that were added
+  var randPass = passGen.sort(function() {
+    return Math.random() - 0.5;
+  })
 
   function generatePassword() {
-    var charSet = lowerCase[1] + upperCase[1] + numInclude[1] + specialChoice[1];
-    var retVal = ""
-    for (var i = 0, n = charSet.length; i < charLength; ++i) {
-      retVal += charSet.charAt(Math.floor(Math.random() * n));
-    }
-    return retVal;
+    return randPass.join('');
   }
-
+  
   generatePassword();
+
+// At first used this function with the lowerCase, etc. set as an array with [boolean, characters] however, with this method we could not guarantee one character from each selected character type.
+  // function blankfalse(y) {
+  //   if (y[0] != true) {
+  //     y[1] = "";
+  //   }
+  // }
+  // blankFalse(lowerCase);
+  // blankFalse(upperCase);
+  // blankFalse(numInclude);
+  // blankFalse(specialChoice);
+
+  // function generatePassword() {
+  //   var retVal = "";
+  //   for (var i = 0, n = charSet.length; i < charLength; ++i) {
+  //     retVal += charSet.charAt(Math.floor(Math.random() * n));
+  //   }
+  //   return retVal;
+  // }
 
   // Used to check console if the variables were showing the correct elements
   // console.log(lowerCase);
@@ -74,7 +121,9 @@ function writePassword() {
   // console.log(numInclude);
   // console.log(specialChoice);
 
-  // Show the generated password on the website
+
+
+// Show the generated password on the website
 var password = generatePassword();
 var passwordText = document.querySelector("#password");
 
