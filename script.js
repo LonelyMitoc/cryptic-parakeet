@@ -90,6 +90,7 @@ function writePassword() {
     return Math.random() - 0.5;
   })
 
+  // join the generated password into a string
   function generatePassword() {
     return randPass.join('');
   }
