@@ -63,7 +63,7 @@ function writePassword() {
   // Puts the variables into arrays and a countType to count the selected character types
   var charType = [lowerCase, upperCase, numInclude, specialChoice];
   var charList = [lowerLetters, upperLetters, numDigits, specialCharc];
-  var passStore =[];
+  var passStore = [];
   var passGen = [];
   var countType = 0;
 
@@ -97,7 +97,13 @@ function writePassword() {
   
   generatePassword();
 
-// At first used this function with the lowerCase, etc. set as an array with [boolean, characters] however, with this method we could not guarantee one character from each selected character type.
+  // Show the generated password on the website
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
+
+  passwordText.value = password;
+
+  // At first used this function with the lowerCase, etc. set as an array with [boolean, characters] however, with this method we could not guarantee one character from each selected character type.
   // function blankfalse(y) {
   //   if (y[0] != true) {
   //     y[1] = "";
@@ -121,14 +127,6 @@ function writePassword() {
   // console.log(upperCase);
   // console.log(numInclude);
   // console.log(specialChoice);
-
-
-
-// Show the generated password on the website
-var password = generatePassword();
-var passwordText = document.querySelector("#password");
-
-passwordText.value = password;
 }
 
 // Add event listener to generate button
