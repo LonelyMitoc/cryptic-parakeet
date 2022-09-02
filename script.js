@@ -85,7 +85,7 @@ function writePassword() {
     passGen.push(passStore[random]);
   }
 
-  // random distribute the generated password to scrabble the first few characters that were added
+  // random distribute the generated password to scramble the stored characters
   var randPass = passGen.sort(function() {
     return Math.random() - 0.5;
   })
@@ -95,6 +95,7 @@ function writePassword() {
     return randPass.join('');
   }
   
+  // run the password generating function
   generatePassword();
 
   // Show the generated password on the website
