@@ -94,10 +94,7 @@ function writePassword() {
   function generatePassword() {
     return randPass.join('');
   }
-  
-  // run the password generating function
-  generatePassword();
-
+ 
   // Show the generated password on the website
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
